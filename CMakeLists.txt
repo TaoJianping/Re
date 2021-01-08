@@ -8,5 +8,5 @@ find_package(jsoncpp CONFIG REQUIRED)
 find_package(GTest CONFIG REQUIRED)
 find_package(glog CONFIG REQUIRED)
 
-add_executable(Re main.cpp State.cpp State.h NFAGraph.cpp NFAGraph.h)
-target_link_libraries(Re PRIVATE jsoncpp_lib GTest::gtest GTest::gtest_main glog::glog)
+add_executable(Re main.cpp State.cpp State.h NFAGraph.cpp NFAGraph.h Token.h Utils.cpp)
+target_link_libraries(Re PRIVATE GTest::gtest GTest::gtest_main glog::glog)

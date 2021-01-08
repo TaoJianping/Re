@@ -7,6 +7,7 @@
 
 #include <map>
 #include <vector>
+#include "Token.h"
 #include <glog/logging.h>
 
 
@@ -16,7 +17,7 @@ public:
     std::map<char, State*> transition;
     std::vector<State*> epsilonTransition;
 
-    explicit State(bool isEnd = false);
+    explicit State(bool isEnd = false) : isEnd(isEnd) {};
     void addTransition(char token, State* to);
     void addEpsilonTransition(State* to);
 };
