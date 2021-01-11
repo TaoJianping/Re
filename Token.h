@@ -7,8 +7,12 @@
 
 #endif //RE_TOKEN_H
 
-enum class TOKEN : char {
-    Concatenation = '#',
-    Alternatives = '|',
-    Repetition = '*',
+enum class Token: char {
+    CONCATENATION_OPERATOR = '#',
+    UNION_OPERATOR = '|',
+    CLOSURE_OPERATOR = '*',
+    ZERO_OR_ONE_OPERATOR = '?',
+    ONE_OR_MORE_OPERATOR = '+',
+    GROUP_LEFT_OPERATOR = '(',
+    GROUP_RIGHT_OPERATOR = ')',
 };
