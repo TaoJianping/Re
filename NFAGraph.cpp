@@ -23,6 +23,11 @@ NFA NFA::build(const std::string &expr) {
             _stack.pop();
             auto nfa = NFA::createConcatenation(nfaFormer, nfaBack);
             _stack.push(nfa);
+        } else if (c == '*') {
+            auto nfa = _stack.top();
+            _stack.pop();
+            auto n = NFA::createRepetition(nfa);
+            _stack.push(n);
         }
         else if (isalpha(c)) {
             auto nfa = NFA::createBasicNFA(c);
@@ -78,5 +83,5 @@ NFA NFA::createRepetition(NFA nfa) {
     nfa.endState->addEpsilonTransition(nfa.startState);
     nfa.endState->addEpsilonTransition(endState);
 
-    return NFA(nullptr, nullptr);
+    return NFA(startState, endState);
 }
