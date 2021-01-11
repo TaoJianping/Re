@@ -12,3 +12,7 @@ void State::addEpsilonTransition(State* to) {
 void State::addTransition(char token, State *to) {
     this->transition[token] = to;
 }
+
+void State::setEndStatus(bool status) {
+    this->isEnd = status;
+}

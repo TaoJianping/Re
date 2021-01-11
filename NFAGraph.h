@@ -5,6 +5,7 @@
 #ifndef RE_NFAGRAPH_H
 #define RE_NFAGRAPH_H
 
+#include <cctype>
 #include "State.h"
 #include <stack>
 
@@ -13,10 +14,11 @@ private:
     State* startState;
     State* endState;
 public:
-    NFA();
     NFA(State* start, State* end) : startState(start), endState(end) {};
     NFA build(const std::string& expr);
     static NFA createBasicNFA(char c);
+    static NFA createConcatenation(NFA former, NFA back);
+    static NFA createAlternatives(NFA former, NFA back);
 };
 
 

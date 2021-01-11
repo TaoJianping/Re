@@ -20,6 +20,7 @@ public:
     explicit State(bool isEnd = false) : isEnd(isEnd) {};
     void addTransition(char token, State* to);
     void addEpsilonTransition(State* to);
+    void setEndStatus(bool status);
 };
 
 #endif //RE_STATE_H

@@ -9,17 +9,30 @@ NFA NFA::build(const std::string &expr) {
 
     for (char c : expr) {
         if (c == '|') {
-
+            auto nfaBack = _stack.top();
+            _stack.pop();
+            auto nfaFormer = _stack.top();
+            _stack.pop();
+            auto nfa = NFA::createAlternatives(nfaFormer, nfaBack);
+            _stack.push(nfa);
+        }
+        else if (c == '#') {
+            auto nfaBack = _stack.top();
+            _stack.pop();
+            auto nfaFormer = _stack.top();
+            _stack.pop();
+            auto nfa = NFA::createConcatenation(nfaFormer, nfaBack);
+            _stack.push(nfa);
+        }
+        else if (isalpha(c)) {
+            auto nfa = NFA::createBasicNFA(c);
+            _stack.push(nfa);
         } else {
 
         }
     }
 
     return NFA(nullptr, nullptr);
-}
-
-NFA::NFA() {
-
 }
 
 NFA NFA::createBasicNFA(char c) {
@@ -30,4 +43,27 @@ NFA NFA::createBasicNFA(char c) {
 
     auto nfa = NFA(start, end);
     return nfa;
+}
+
+NFA NFA::createConcatenation(NFA former, NFA back) {
+    former.endState->isEnd = false;
+    former.endState->addEpsilonTransition(back.startState);
+
+    auto nfa = NFA(former.startState, back.endState);
+    return nfa;
+}
+
+NFA NFA::createAlternatives(NFA former, NFA back) {
+    auto startState = new State();
+    auto endState = new State(true);
+    former.endState->setEndStatus(false);
+    back.endState->setEndStatus(false);
+
+    startState->addEpsilonTransition(former.startState);
+    startState->addEpsilonTransition(back.startState);
+
+    former.endState->addEpsilonTransition(endState);
+    back.endState->addEpsilonTransition(endState);
+
+    return NFA(startState, endState);
 }
