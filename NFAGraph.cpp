@@ -67,3 +67,16 @@ NFA NFA::createAlternatives(NFA former, NFA back) {
 
     return NFA(startState, endState);
 }
+
+NFA NFA::createRepetition(NFA nfa) {
+    auto startState = new State();
+    auto endState = new State(true);
+
+    startState->addEpsilonTransition(endState);
+    startState->addEpsilonTransition(nfa.startState);
+    nfa.endState->setEndStatus(false);
+    nfa.endState->addEpsilonTransition(nfa.startState);
+    nfa.endState->addEpsilonTransition(endState);
+
+    return NFA(nullptr, nullptr);
+}

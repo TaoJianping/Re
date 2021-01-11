@@ -19,6 +19,7 @@ public:
     static NFA createBasicNFA(char c);
     static NFA createConcatenation(NFA former, NFA back);
     static NFA createAlternatives(NFA former, NFA back);
+    static NFA createRepetition(NFA nfa);
 };
 
 
