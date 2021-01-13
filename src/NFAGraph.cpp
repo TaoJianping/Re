@@ -33,11 +33,11 @@ NFA NFA::build(const std::string &expr) {
             auto nfa = NFA::createBasicNFA(c);
             _stack.push(nfa);
         } else {
-
+            throw std::bad_exception();
         }
     }
 
-    return NFA(nullptr, nullptr);
+    return _stack.top();
 }
 
 NFA NFA::createBasicNFA(char c) {

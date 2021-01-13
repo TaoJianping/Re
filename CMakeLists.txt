@@ -4,9 +4,18 @@ project(Re)
 
 set(CMAKE_CXX_STANDARD 20)
 
-find_package(jsoncpp CONFIG REQUIRED)
-find_package(GTest CONFIG REQUIRED)
 find_package(glog CONFIG REQUIRED)
 
-add_executable(Re main.cpp State.cpp State.h NFAGraph.cpp NFAGraph.h Token.h Utils.cpp)
-target_link_libraries(Re PRIVATE GTest::gtest GTest::gtest_main glog::glog)
+
+FILE (GLOB ALL_FILE src/*)
+
+FOREACH (FILE ${ALL_FILE})
+    MESSAGE(STATUS ${FILE})
+ENDFOREACH ()
+
+add_executable(Re ${ALL_FILE})
+target_link_libraries(Re PRIVATE glog::glog)
+
+#
+#add_test(Test Re)
+#enable_testing()
