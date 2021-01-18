@@ -33,6 +33,7 @@ NFA NFA::build(const std::string &expr) {
             auto nfa = NFA::createBasicNFA(c);
             _stack.push(nfa);
         } else {
+            LOG(ERROR) << "UNSUPPORT CHAR -> " << c;
             throw std::bad_exception();
         }
     }

@@ -8,7 +8,8 @@
 
 #include <gtest/gtest.h>
 #include <glog/logging.h>
-#include "../src/Utils.h"
+#include "Utils.h"
+#include "NFAGraph.h"
 
 
 TEST(TestM2B, testSuccess) {

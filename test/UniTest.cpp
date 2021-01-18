@@ -15,11 +15,27 @@ TEST(Base, 4plus4)
 //    EXPECT_TRUE(true);
 }//通过
 
-TEST(asdasdasd, 5plus5)
+
+TEST(Base, Normal)
 {
-    EXPECT_TRUE(false);
+    std::string expr = "a(b|c)*";
+    deleteAllMark(expr, " ");
+    auto e = insertExplicitConcatOperator(expr);
+    EXPECT_EQ(e, std::string("a#(b|c)*"));
+    auto te = m_to_b(e);
+    auto nfa = NFA();
+    auto res = nfa.build(te);
+    EXPECT_EQ(1, 1);
+
 }//不通过
 
+
+
+TEST(MTOB, success) {
+    std::string expr = "(a|b)*#c";
+    auto res = m_to_b(expr);
+    EXPECT_EQ(res, std::string("ab|*c"));
+}
 
 
 //int main(int argc, char **argv) {

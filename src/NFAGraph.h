@@ -15,6 +15,7 @@ private:
     State* endState;
 public:
     NFA(State* start, State* end) : startState(start), endState(end) {};
+    NFA() {};
     NFA build(const std::string& expr);
     static NFA createBasicNFA(char c);
     static NFA createConcatenation(NFA former, NFA back);
