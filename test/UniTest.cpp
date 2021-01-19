@@ -25,16 +25,48 @@ TEST(Base, Normal)
     auto te = m_to_b(e);
     auto nfa = NFA();
     auto res = nfa.build(te);
-    EXPECT_EQ(1, 1);
-
+    auto startState = res.getStartState();
+    EXPECT_EQ(startState->epsilonTransition.size(), 0);
+    EXPECT_EQ(startState->transition.size(), 1);
+    EXPECT_EQ(startState->transition.count('a'), 1);
+    EXPECT_EQ(startState->transition['a']->epsilonTransition.size(), 1);
+    EXPECT_EQ(startState->transition['a']->epsilonTransition[0]->epsilonTransition.size(), 2);
+    auto n2 = startState->transition['a']->epsilonTransition[0];
+    EXPECT_EQ(n2->epsilonTransition.size(), 2);
+    for (auto s : n2->epsilonTransition) {
+        if (s->isEnd) {
+            LOG(INFO) << "FIND END STATE";
+        } else {
+            auto n3 = s;
+            LOG(INFO) << "n3's id ==> " << n3->id;
+            EXPECT_EQ(n3->epsilonTransitionSize(), 2);
+            EXPECT_EQ(n3->transitionSize(), 0);
+            for (auto s1 : n3->epsilonTransition) {
+                EXPECT_TRUE(s1->existPath('b') || s1->existPath('c'));
+                if (s1->existPath('b')) {
+                    auto n5 = s1->path('b');
+                    EXPECT_EQ(n5->epsilonTransitionSize(), 1);
+                    auto n8 = n5->epsilonTransition[0];
+                    EXPECT_EQ(n8->epsilonTransitionSize(), 2);
+                    for (auto s2 : n8->epsilonTransition) {
+                        if (s2->isEnd) {
+                            LOG(INFO) << "FIND END STATE! id -> " << s2->id;
+                        } else {
+                            EXPECT_EQ(s2->id, n3->id);
+                        }
+                    }
+                }
+            }
+        }
+    }
 }//不通过
 
 
 
 TEST(MTOB, success) {
-    std::string expr = "(a|b)*#c";
-    auto res = m_to_b(expr);
-    EXPECT_EQ(res, std::string("ab|*c"));
+//    std::string expr = "(a|b)*#c";
+//    auto res = m_to_b(expr);
+//    EXPECT_EQ(res, std::string("ab|*c"));
 }
 
 

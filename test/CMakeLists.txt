@@ -20,7 +20,7 @@ set(
         ../src/NFAGraph.cpp
         ../src/State.cpp
         ../src/State.h
-        ../src/DFA.cpp ../src/DFA.h)
+        ../src/DFA.cpp ../src/DFA.h ../src/DFAState.cpp ../src/DFAState.h)
 
 
 add_executable(ReTest UniTest.h UniTest.cpp ${SOURCE_FILE})

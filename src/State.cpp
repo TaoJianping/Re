@@ -16,3 +16,19 @@ void State::addTransition(char token, State *to) {
 void State::setEndStatus(bool status) {
     this->isEnd = status;
 }
+
+bool State::existPath(char path) const {
+    return this->transition.count(path) > 0;
+}
+
+int State::epsilonTransitionSize() const {
+    return this->epsilonTransition.size();
+}
+
+int State::transitionSize() const {
+    return this->transition.size();
+}
+
+State* State::path(char c) const {
+    return this->transition.at(c);
+}

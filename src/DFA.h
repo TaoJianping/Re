@@ -10,8 +10,11 @@
 #include <stack>
 #include <set>
 #include "State.h"
+#include "DFAState.h"
 
 class DFA {
+private:
+
 public:
     explicit DFA(NFA nfa);
     std::vector<State*> eps_closure(State* state);

@@ -86,3 +86,7 @@ NFA NFA::createRepetition(NFA nfa) {
 
     return NFA(startState, endState);
 }
+
+State *NFA::getStartState() {
+    return this->startState;
+}

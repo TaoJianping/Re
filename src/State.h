@@ -23,6 +23,10 @@ public:
     void addTransition(char token, State* to);
     void addEpsilonTransition(State* to);
     void setEndStatus(bool status);
+    [[nodiscard]] bool existPath(char path) const;
+    [[nodiscard]] int epsilonTransitionSize() const;
+    [[nodiscard]] int transitionSize() const;
+    State* path(char c) const;
 };
 
 #endif //RE_STATE_H

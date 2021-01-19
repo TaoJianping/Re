@@ -5,6 +5,16 @@
 #include "DFA.h"
 
 DFA::DFA(NFA nfa) {
+    auto state = nfa.getStartState();
+    auto es = this->eps_closure(state);
+    auto ds = new DFAState(es);
+    auto tokens = std::vector<char> {'a', 'b', 'c'};
+
+    auto workList = std::vector<DFAState* >();
+    workList.push_back(ds);
+
+
+
 
 }
 
