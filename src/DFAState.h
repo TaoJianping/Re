@@ -10,9 +10,12 @@
 
 class DFAState {
 private:
-    std::vector<State* > states {};
+    std::vector<State* > NFAStates {};
+    std::map<char, DFAState*> transition {};
 public:
-    explicit DFAState(std::vector<State* > states) : states(std::move(states)) {};
+    explicit DFAState(std::vector<State* > states) : NFAStates(std::move(states)) {};
+    std::vector<State* > getNFAStates();
+    bool setPath(char c, DFAState* state);
 };
 
 
