@@ -2,11 +2,13 @@
 // Created by tao on 2021/1/14.
 //
 
+#include <algorithm>
 #include "DFA.h"
 
 DFA::DFA(NFA nfa) {
     auto state = nfa.getStartState();
     auto q0 = new DFAState(DFA::epsClosure(state));
+    this->startState = q0;
     std::set<DFAState *> Q{};
     Q.insert(q0);
     std::queue<DFAState *> workList{};
@@ -19,15 +21,20 @@ DFA::DFA(NFA nfa) {
         workList.pop();
         for (char c : Alphabet) {
             auto states = DFA::epsClosure(DFA::move(q->getNFAStates(), c));
-//            auto newQ = new DFAState();
-//            q->setPath(c, newQ);
-//            Q.insert(newQ);
-//            workList.push(newQ);
+            if (states.empty())
+                continue;
+            auto existedDFAState = DFA::getDFAState(Q, states);
+            if (existedDFAState.has_value()) {
+                auto s =existedDFAState.value();
+                q->setPath(c, s);
+            } else {
+                auto newQ = new DFAState(states);
+                q->setPath(c, newQ);
+                Q.insert(newQ);
+                workList.push(newQ);
+            }
         }
     }
-
-
-
 }
 
 
@@ -96,5 +103,58 @@ std::vector<State *> DFA::epsClosure(State *state) {
     return std::vector<State *>(container.begin(), container.end());
 }
 
+bool DFA::containStates(const std::set<DFAState *> &Q, const std::vector<State *>& states) {
+    std::set<int> _statesIdSet {};
+    std::for_each(states.begin(), states.end(), [&_statesIdSet](auto item){ _statesIdSet.insert((item->id)); });
+
+    for (auto q : Q) {
+        auto qs = q->getNFAStates();
+        std::set<int> _qsIdSet {};
+        std::for_each(qs.begin(), qs.end(), [&_qsIdSet](auto item){ _qsIdSet.insert((item->id)); });
+        if (_qsIdSet == _statesIdSet) {
+            return true;
+        }
+    }
+    return false;
+}
+
+std::optional<DFAState *> DFA::getDFAState(const std::set<DFAState *> &Q, const std::vector<State *> &states) {
+    std::set<int> _statesIdSet {};
+    std::for_each(states.begin(), states.end(), [&_statesIdSet](auto item){ _statesIdSet.insert((item->id)); });
+
+    for (auto q : Q) {
+        auto qs = q->getNFAStates();
+        std::set<int> _qsIdSet {};
+        std::for_each(qs.begin(), qs.end(), [&_qsIdSet](auto item){ _qsIdSet.insert((item->id)); });
+        if (_qsIdSet == _statesIdSet) {
+            return q;
+        }
+    }
+    return std::nullopt;;
+}
+
+DFAState *DFA::getStartState() {
+    return this->startState;
+}
+
+std::vector<DFAState *> DFA::getAllStates() {
+    std::queue<DFAState *> _queue;
+    _queue.push(this->getStartState());
+    std::set<DFAState *> visited;
+    visited.insert(this->getStartState());
+
+    while (!_queue.empty()) {
+        auto front = _queue.front();
+        _queue.pop();
+        for (auto& [_, value] : front->getAllPath()) {
+            if (!visited.count(value)) {
+                visited.insert(value);
+                _queue.push(value);
+            }
+        }
+    }
+
+    return std::vector<DFAState *> {visited.begin(), visited.end()};
+}
 
 

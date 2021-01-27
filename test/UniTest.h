@@ -10,14 +10,7 @@
 #include <glog/logging.h>
 #include "Utils.h"
 #include "NFAGraph.h"
+#include "DFA.h"
 
-
-TEST(TestM2B, testSuccess) {
-//    std::string reg = "(a|b)*c";
-//    auto r = insertExplicitConcatOperator(reg);
-//    EXPECT_EQ(r, "(a|b)*#c");
-//    auto res = m_to_b(r);
-//    EXPECT_EQ("ab|*c", res);
-}
 
 #endif //RE_UNITEST_H

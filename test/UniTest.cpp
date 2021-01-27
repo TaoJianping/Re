@@ -5,17 +5,6 @@
 #include "UniTest.h"
 
 
-TEST(Base, 4plus4)
-{
-    std::string a = "ddd";
-    std::string b = " ";
-    std::string c = " ddd   ";
-    deleteAllMark(c, b);
-    EXPECT_EQ(a, c);
-//    EXPECT_TRUE(true);
-}//通过
-
-
 TEST(Base, Normal)
 {
     std::string expr = "a(b|c)*";
@@ -59,18 +48,51 @@ TEST(Base, Normal)
             }
         }
     }
-}//不通过
-
-
-
-TEST(MTOB, success) {
-//    std::string expr = "(a|b)*#c";
-//    auto res = m_to_b(expr);
-//    EXPECT_EQ(res, std::string("ab|*c"));
 }
 
 
-//int main(int argc, char **argv) {
-//    ::testing::InitGoogleTest(&argc, argv);
-//    return RUN_ALL_TESTS();
-//}
+TEST(TestDFA, success) {
+    std::string expr = "a(b|c)*";
+    deleteAllMark(expr, " ");
+    auto e = insertExplicitConcatOperator(expr);
+    EXPECT_EQ(e, std::string("a#(b|c)*"));
+    auto te = m_to_b(e);
+    auto nfa = NFA();
+    auto res = nfa.build(te);
+    auto dfa = DFA(res);
+    EXPECT_EQ(1, 1);
+}
+
+TEST(TestDFA, success2) {
+    std::string expr = "(a|b)*abb";
+    deleteAllMark(expr, " ");
+    auto e = insertExplicitConcatOperator(expr);
+//    EXPECT_EQ(e, std::string("a#(b|c)*"));
+    auto te = m_to_b(e);
+    auto nfa = NFA();
+    auto res = nfa.build(te);
+    auto dfa = DFA(res);
+    auto A = dfa.getStartState();
+    EXPECT_EQ(A->containsPath('b'), true);
+    EXPECT_EQ(A->containsPath('c'), false);
+    EXPECT_EQ(A->containsPath('a'), true);
+    auto B = A->pathTo('a');
+    auto C = A->pathTo('b');
+    EXPECT_EQ(B->End(), false);
+    EXPECT_EQ(B->containsPath('b'), true);
+    EXPECT_EQ(B->containsPath('c'), false);
+    EXPECT_EQ(B->containsPath('a'), true);
+    EXPECT_EQ(C->End(), false);
+    EXPECT_EQ(C->containsPath('b'), true);
+    EXPECT_EQ(C->containsPath('c'), false);
+    EXPECT_EQ(C->containsPath('a'), true);
+    EXPECT_EQ(C->pathTo('a'), B);
+    EXPECT_EQ(C->pathTo('b'), C);
+    auto D = B->pathTo('b');
+    EXPECT_EQ(D->End(), false);
+    EXPECT_EQ(C->containsPath('b'), true);
+    auto E = D->pathTo('b');
+    EXPECT_EQ(E->End(), true);
+    EXPECT_EQ(E->pathTo('a'), B);
+
+}

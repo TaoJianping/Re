@@ -16,12 +16,16 @@
 class DFA {
 private:
     static void epsClosure(State* state, std::set<State*>& container);
-
+    DFAState* startState;
 public:
     explicit DFA(NFA nfa);
     static std::vector<State*> epsClosure(const std::vector<State*>& T);
     static std::vector<State*> epsClosure(State* state);
     static std::vector<State*> move(const std::vector<State*>& T, char c);
+    static bool containStates(const std::set<DFAState *>& Q, const std::vector<State *>& states);
+    static std::optional<DFAState *> getDFAState(const std::set<DFAState *>& Q, const std::vector<State *>& states);
+    DFAState* getStartState();
+    std::vector<DFAState *> getAllStates();
 };
 
 
