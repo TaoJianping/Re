@@ -50,7 +50,6 @@ TEST(Base, Normal)
     }
 }
 
-
 TEST(TestDFA, success) {
     std::string expr = "a(b|c)*";
     deleteAllMark(expr, " ");
@@ -61,6 +60,7 @@ TEST(TestDFA, success) {
     auto res = nfa.build(te);
     auto dfa = DFA(res);
     EXPECT_EQ(1, 1);
+    auto mini = MinimizeDFA::hopcroft(dfa);
 }
 
 TEST(TestDFA, success2) {
@@ -96,3 +96,55 @@ TEST(TestDFA, success2) {
     EXPECT_EQ(E->pathTo('a'), B);
 
 }
+
+TEST(TestDFA, success3) {
+    std::string expr = "fee|fie";
+    auto dfa_0 = new DFAState();
+    auto dfa_1 = new DFAState();
+    auto dfa_2 = new DFAState();
+    auto dfa_3 = new DFAState();
+    auto dfa_4 = new DFAState();
+    auto dfa_5 = new DFAState();
+
+    dfa_0->word = "q0";
+    dfa_1->word = "q1";
+    dfa_2->word = "q2";
+    dfa_3->word = "q3";
+    dfa_4->word = "q4";
+    dfa_5->word = "q5";
+
+    dfa_0->setPath('f', dfa_1);
+    dfa_1->setPath('e', dfa_2);
+    dfa_1->setPath('i', dfa_4);
+    dfa_2->setPath('e', dfa_3);
+    dfa_4->setPath('e', dfa_5);
+
+    dfa_3->setEnd();
+    dfa_5->setEnd();
+
+    auto dfa = DFA();
+    dfa.setStartState(dfa_0);
+    auto mini = MinimizeDFA::hopcroft(dfa);
+
+
+
+}
+
+TEST(TestDFA, success4) {
+    std::string expr = "(fee)|(fie)";
+//    std::string expr = "a|b";
+    deleteAllMark(expr, " ");
+    auto e = insertExplicitConcatOperator(expr);
+    auto te = m_to_b(e);
+    LOG(INFO) << te;
+}
+
+TEST(TestDFA, success5) {
+    std::string expr = "fee|fie";
+//    std::string expr = "a|b";
+    deleteAllMark(expr, " ");
+    auto e = insertExplicitConcatOperator(expr);
+    auto te = m_to_b(e);
+    LOG(INFO) << te;
+}
+

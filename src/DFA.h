@@ -19,6 +19,8 @@ private:
     DFAState* startState;
 public:
     explicit DFA(NFA nfa);
+    DFA() {};
+    void setStartState(DFAState* startState) { this->startState = startState;};
     static std::vector<State*> epsClosure(const std::vector<State*>& T);
     static std::vector<State*> epsClosure(State* state);
     static std::vector<State*> move(const std::vector<State*>& T, char c);

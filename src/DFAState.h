@@ -14,6 +14,7 @@ private:
     std::vector<State* > NFAStates {};
     std::map<char, DFAState*> transition {};
 public:
+    std::string word;
     explicit DFAState(std::vector<State* > states) : NFAStates(std::move(states)) {
         for (auto s : NFAStates) {
             if (s->isEnd) {
@@ -22,12 +23,14 @@ public:
             }
         }
     };
+    DFAState() = default;;
     std::vector<State* > getNFAStates();
     bool setPath(char c, DFAState* state);
     bool containsPath(char c);
     DFAState* pathTo(char c);
     bool End();
     std::map<char, DFAState*> getAllPath();
+    void setEnd() { this->isEnd = true;};
 };
 
 

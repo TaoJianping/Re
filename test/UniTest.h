@@ -11,6 +11,7 @@
 #include "Utils.h"
 #include "NFAGraph.h"
 #include "DFA.h"
+#include "MinimizeDFA.h"
 
 
 #endif //RE_UNITEST_H
