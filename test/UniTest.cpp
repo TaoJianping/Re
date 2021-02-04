@@ -140,7 +140,7 @@ TEST(TestDFA, success4) {
 }
 
 TEST(TestDFA, success5) {
-    std::string expr = "fee|fie";
+    std::string expr = "(ab|cd)*";
 //    std::string expr = "a|b";
     deleteAllMark(expr, " ");
     auto e = insertExplicitConcatOperator(expr);

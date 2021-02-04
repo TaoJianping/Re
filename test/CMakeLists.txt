@@ -18,8 +18,8 @@ set(
         ../src/Token.h
         ../src/NFAGraph.h
         ../src/NFAGraph.cpp
-        ../src/State.cpp
-        ../src/State.h
+        ../src/NFAState.cpp
+        ../src/NFAState.h
         ../src/DFA.cpp ../src/DFA.h ../src/DFAState.cpp ../src/DFAState.h ../src/MinimizeDFA.cpp ../src/MinimizeDFA.h)
 
 

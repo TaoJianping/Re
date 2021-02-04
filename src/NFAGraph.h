@@ -6,22 +6,22 @@
 #define RE_NFAGRAPH_H
 
 #include <cctype>
-#include "State.h"
+#include "NFAState.h"
 #include <stack>
 
 class NFA {
 private:
-    State* startState;
-    State* endState;
+    NFAState* startState;
+    NFAState* endState;
 public:
-    NFA(State* start, State* end) : startState(start), endState(end) {};
+    NFA(NFAState* start, NFAState* end) : startState(start), endState(end) {};
     NFA() {};
     NFA build(const std::string& expr);
     static NFA createBasicNFA(char c);
     static NFA createConcatenation(NFA former, NFA back);
     static NFA createAlternatives(NFA former, NFA back);
     static NFA createRepetition(NFA nfa);
-    State* getStartState();
+    NFAState* getStartState();
 };
 
 

@@ -6,16 +6,16 @@
 #define RETEST_DFASTATE_H
 #include <utility>
 #include <vector>
-#include "State.h"
+#include "NFAState.h"
 
 class DFAState {
 private:
     bool isEnd = false;
-    std::vector<State* > NFAStates {};
+    std::vector<NFAState* > NFAStates {};
     std::map<char, DFAState*> transition {};
 public:
     std::string word;
-    explicit DFAState(std::vector<State* > states) : NFAStates(std::move(states)) {
+    explicit DFAState(std::vector<NFAState* > states) : NFAStates(std::move(states)) {
         for (auto s : NFAStates) {
             if (s->isEnd) {
                 this->isEnd = true;
@@ -24,7 +24,7 @@ public:
         }
     };
     DFAState() = default;;
-    std::vector<State* > getNFAStates();
+    std::vector<NFAState* > getNFAStates();
     bool setPath(char c, DFAState* state);
     bool containsPath(char c);
     DFAState* pathTo(char c);

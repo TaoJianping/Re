@@ -12,21 +12,21 @@
 
 static int StateCount = 0;
 
-class State {
+class NFAState {
 public:
     int id;
     bool isEnd;
-    std::map<char, State*> transition;
-    std::vector<State*> epsilonTransition;
+    std::map<char, NFAState*> transition;
+    std::vector<NFAState*> epsilonTransition;
 
-    explicit State(bool isEnd = false) : isEnd(isEnd) {id = StateCount++;};
-    void addTransition(char token, State* to);
-    void addEpsilonTransition(State* to);
+    explicit NFAState(bool isEnd = false) : isEnd(isEnd) { id = StateCount++;};
+    void addTransition(char token, NFAState* to);
+    void addEpsilonTransition(NFAState* to);
     void setEndStatus(bool status);
     [[nodiscard]] bool existPath(char path) const;
     [[nodiscard]] int epsilonTransitionSize() const;
     [[nodiscard]] int transitionSize() const;
-    State* path(char c) const;
+    NFAState* path(char c) const;
 };
 
 #endif //RE_STATE_H

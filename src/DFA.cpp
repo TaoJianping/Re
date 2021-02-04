@@ -41,10 +41,10 @@ DFA::DFA(NFA nfa) {
 /*
  * eps_closure 的无递归版本，先注释了吧，没必要
  * */
-//std::vector<State *> DFA::eps_closure(State *state) {
-//    auto res = std::vector<State *>();
-//    std::set<State* > visited;
-//    std::stack<State* > _stack;
+//std::vector<NFAState *> DFA::eps_closure(NFAState *state) {
+//    auto res = std::vector<NFAState *>();
+//    std::set<NFAState* > visited;
+//    std::stack<NFAState* > _stack;
 //    _stack.push(state);
 //    while (!_stack.empty()) {
 //        auto s = _stack.top();
@@ -65,7 +65,7 @@ DFA::DFA(NFA nfa) {
  * eps_closure 的递归版本，用这个
  *      目标是输入一个state，能够找到所有不消耗char能到达的边，就是ε边
  * */
-void DFA::epsClosure(State *state, std::set<State *> &container) {
+void DFA::epsClosure(NFAState *state, std::set<NFAState *> &container) {
     if (container.count(state))
         return;
     container.insert(state);
@@ -74,18 +74,18 @@ void DFA::epsClosure(State *state, std::set<State *> &container) {
     }
 }
 
-std::vector<State *> DFA::epsClosure(const std::vector<State *> &T) {
-    auto res = std::set<State *>{};
+std::vector<NFAState *> DFA::epsClosure(const std::vector<NFAState *> &T) {
+    auto res = std::set<NFAState *>{};
 
     for (auto s : T) {
         DFA::epsClosure(s, res);
     }
 
-    return std::vector<State *>(res.begin(), res.end());
+    return std::vector<NFAState *>(res.begin(), res.end());
 }
 
-std::vector<State *> DFA::move(const std::vector<State *> &T, char c) {
-    auto res = std::set<State *>{};
+std::vector<NFAState *> DFA::move(const std::vector<NFAState *> &T, char c) {
+    auto res = std::set<NFAState *>{};
     for (auto s : T) {
         if (s->existPath(c)) {
             auto p = s->path(c);
@@ -94,16 +94,16 @@ std::vector<State *> DFA::move(const std::vector<State *> &T, char c) {
             }
         }
     }
-    return std::vector<State *>(res.begin(), res.end());
+    return std::vector<NFAState *>(res.begin(), res.end());
 }
 
-std::vector<State *> DFA::epsClosure(State *state) {
-    auto container = std::set<State *>{};
+std::vector<NFAState *> DFA::epsClosure(NFAState *state) {
+    auto container = std::set<NFAState *>{};
     DFA::epsClosure(state, container);
-    return std::vector<State *>(container.begin(), container.end());
+    return std::vector<NFAState *>(container.begin(), container.end());
 }
 
-bool DFA::containStates(const std::set<DFAState *> &Q, const std::vector<State *>& states) {
+bool DFA::containStates(const std::set<DFAState *> &Q, const std::vector<NFAState *>& states) {
     std::set<int> _statesIdSet {};
     std::for_each(states.begin(), states.end(), [&_statesIdSet](auto item){ _statesIdSet.insert((item->id)); });
 
@@ -118,7 +118,7 @@ bool DFA::containStates(const std::set<DFAState *> &Q, const std::vector<State *
     return false;
 }
 
-std::optional<DFAState *> DFA::getDFAState(const std::set<DFAState *> &Q, const std::vector<State *> &states) {
+std::optional<DFAState *> DFA::getDFAState(const std::set<DFAState *> &Q, const std::vector<NFAState *> &states) {
     std::set<int> _statesIdSet {};
     std::for_each(states.begin(), states.end(), [&_statesIdSet](auto item){ _statesIdSet.insert((item->id)); });
 

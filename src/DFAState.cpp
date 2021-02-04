@@ -4,7 +4,7 @@
 
 #include "DFAState.h"
 
-std::vector<State *> DFAState::getNFAStates() {
+std::vector<NFAState *> DFAState::getNFAStates() {
     return this->NFAStates;
 }
 

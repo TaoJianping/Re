@@ -42,8 +42,8 @@ NFA NFA::build(const std::string &expr) {
 }
 
 NFA NFA::createBasicNFA(char c) {
-    auto start = new State();
-    auto end = new State(true);
+    auto start = new NFAState();
+    auto end = new NFAState(true);
 
     start->addTransition(c, end);
 
@@ -60,8 +60,8 @@ NFA NFA::createConcatenation(NFA former, NFA back) {
 }
 
 NFA NFA::createAlternatives(NFA former, NFA back) {
-    auto startState = new State();
-    auto endState = new State(true);
+    auto startState = new NFAState();
+    auto endState = new NFAState(true);
     former.endState->setEndStatus(false);
     back.endState->setEndStatus(false);
 
@@ -75,8 +75,8 @@ NFA NFA::createAlternatives(NFA former, NFA back) {
 }
 
 NFA NFA::createRepetition(NFA nfa) {
-    auto startState = new State();
-    auto endState = new State(true);
+    auto startState = new NFAState();
+    auto endState = new NFAState(true);
 
     startState->addEpsilonTransition(endState);
     startState->addEpsilonTransition(nfa.startState);
@@ -87,6 +87,6 @@ NFA NFA::createRepetition(NFA nfa) {
     return NFA(startState, endState);
 }
 
-State *NFA::getStartState() {
+NFAState *NFA::getStartState() {
     return this->startState;
 }

@@ -10,22 +10,22 @@
 #include <stack>
 #include <set>
 #include <queue>
-#include "State.h"
+#include "NFAState.h"
 #include "DFAState.h"
 
 class DFA {
 private:
-    static void epsClosure(State* state, std::set<State*>& container);
+    static void epsClosure(NFAState* state, std::set<NFAState*>& container);
     DFAState* startState;
 public:
     explicit DFA(NFA nfa);
     DFA() {};
     void setStartState(DFAState* startState) { this->startState = startState;};
-    static std::vector<State*> epsClosure(const std::vector<State*>& T);
-    static std::vector<State*> epsClosure(State* state);
-    static std::vector<State*> move(const std::vector<State*>& T, char c);
-    static bool containStates(const std::set<DFAState *>& Q, const std::vector<State *>& states);
-    static std::optional<DFAState *> getDFAState(const std::set<DFAState *>& Q, const std::vector<State *>& states);
+    static std::vector<NFAState*> epsClosure(const std::vector<NFAState*>& T);
+    static std::vector<NFAState*> epsClosure(NFAState* state);
+    static std::vector<NFAState*> move(const std::vector<NFAState*>& T, char c);
+    static bool containStates(const std::set<DFAState *>& Q, const std::vector<NFAState *>& states);
+    static std::optional<DFAState *> getDFAState(const std::set<DFAState *>& Q, const std::vector<NFAState *>& states);
     DFAState* getStartState();
     std::vector<DFAState *> getAllStates();
 };
