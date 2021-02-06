@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.17)
+cmake_minimum_required(VERSION 3.16)
 
 project(ReTest)
 
@@ -20,7 +20,7 @@ set(
         ../src/NFAGraph.cpp
         ../src/NFAState.cpp
         ../src/NFAState.h
-        ../src/DFA.cpp ../src/DFA.h ../src/DFAState.cpp ../src/DFAState.h ../src/MinimizeDFA.cpp ../src/MinimizeDFA.h)
+        ../src/DFA.cpp ../src/DFA.h ../src/DFAState.cpp ../src/DFAState.h ../src/MinimizeDFA.cpp ../src/MinimizeDFA.h ../src/Define.h)
 
 
 add_executable(ReTest UniTest.h UniTest.cpp ${SOURCE_FILE})

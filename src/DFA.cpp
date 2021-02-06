@@ -14,12 +14,12 @@ DFA::DFA(NFA nfa) {
     std::queue<DFAState *> workList{};
     workList.push(q0);
 
-    auto Alphabet = std::vector<char> {'a', 'b', 'c'};
+//    auto Alphabet = ;
 
     while (!workList.empty()) {
         auto q = workList.front();
         workList.pop();
-        for (char c : Alphabet) {
+        for (char c : Define::Alphabet) {
             auto states = DFA::epsClosure(DFA::move(q->getNFAStates(), c));
             if (states.empty())
                 continue;

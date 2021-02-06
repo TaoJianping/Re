@@ -59,8 +59,10 @@ TEST(TestDFA, success) {
     auto nfa = NFA();
     auto res = nfa.build(te);
     auto dfa = DFA(res);
-    EXPECT_EQ(1, 1);
-    auto mini = MinimizeDFA::hopcroft(dfa);
+    auto hopcroft = MinimizeDFA::Hopcroft();
+    hopcroft.minimize(dfa);
+
+//    auto mini = MinimizeDFA::hopcroft(dfa);
 }
 
 TEST(TestDFA, success2) {
@@ -124,7 +126,7 @@ TEST(TestDFA, success3) {
 
     auto dfa = DFA();
     dfa.setStartState(dfa_0);
-    auto mini = MinimizeDFA::hopcroft(dfa);
+//    auto mini = MinimizeDFA::Hopcroft(dfa);
 
 
 

@@ -91,7 +91,7 @@ std::string m_to_b(const std::string &expr) {
         }
     }
 
-    while (optStack.size()) {
+    while (!optStack.empty()) {
         output += optStack.top();
         optStack.pop();
     }

@@ -12,6 +12,7 @@
 #include <queue>
 #include "NFAState.h"
 #include "DFAState.h"
+#include "Define.h"
 
 class DFA {
 private:

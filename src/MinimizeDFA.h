@@ -6,25 +6,31 @@
 #define RETEST_MINIMIZEDFA_H
 
 #include "DFA.h"
+#include "DFAState.h"
 #include <algorithm>
+#include "Define.h"
+
+namespace MinimizeDFA {
+    static int MiddleNodeCount = 0;
+
+    struct MiddleNode {
+        int id = MiddleNodeCount++;
+        bool splitFinished = false;
+        std::vector<DFAState *> states;
+    };
+
+    class Hopcroft {
+    public:
+        DFA minimize(DFA dfa);
+    private:
+        static std::vector<MiddleNode> splitStatesToNA(const std::vector<DFAState *>& states);
+        static std::vector<MiddleNode> split(MiddleNode node, std::map<DFAState *, int> _map);
+        static DFA generate(const std::vector<MiddleNode>& P);
+    };
+}
 
 
 
-static int MiddleNodeCount = 0;
-
-struct MiddleNode {
-    int id = MiddleNodeCount++;
-    bool splitFinished = false;
-    std::vector<DFAState *> states;
-};
-
-
-class MinimizeDFA {
-public:
-    static MinimizeDFA hopcroft(DFA dfa);
-    static std::vector<MiddleNode> splitStatesToNA(const std::vector<DFAState *>& states);
-    static std::vector<MiddleNode> split(MiddleNode node, std::map<DFAState *, int> _map);
-};
 
 
 #endif //RETEST_MINIMIZEDFA_H
