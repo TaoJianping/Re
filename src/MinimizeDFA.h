@@ -16,6 +16,7 @@ namespace MinimizeDFA {
     struct MiddleNode {
         int id = MiddleNodeCount++;
         bool splitFinished = false;
+        bool isStart = false;
         std::vector<DFAState *> states;
     };
 

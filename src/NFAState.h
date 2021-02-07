@@ -26,7 +26,7 @@ public:
     [[nodiscard]] bool existPath(char path) const;
     [[nodiscard]] int epsilonTransitionSize() const;
     [[nodiscard]] int transitionSize() const;
-    NFAState* path(char c) const;
+    [[nodiscard]] NFAState* path(char c) const;
 };
 
 #endif //RE_STATE_H

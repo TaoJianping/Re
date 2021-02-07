@@ -2,6 +2,7 @@
 // Created by tao on 2021/1/19.
 //
 
+#include <utility>
 #include "DFAState.h"
 
 std::vector<NFAState *> DFAState::getNFAStates() {
@@ -21,10 +22,18 @@ DFAState *DFAState::pathTo(char c) {
     return this->transition.at(c);
 }
 
-bool DFAState::End() {
+bool DFAState::End() const {
     return this->isEnd;
 }
 
 std::map<char, DFAState *> DFAState::getAllPath() {
     return this->transition;
+}
+
+const std::string& DFAState::desc() {
+    return this->description;
+}
+
+void DFAState::setDesc(std::string d) {
+    this->description = std::move(d);
 }

@@ -3,8 +3,12 @@
 //
 
 #include "NFAGraph.h"
+#include "Utils.h"
 
-NFA NFA::build(const std::string &expr) {
+
+
+NFA NFA::build(const std::string &originalExpr) {
+    auto expr = m_to_b(insertExplicitConcatOperator(originalExpr));
     std::stack<NFA> _stack;
 
     for (char c : expr) {

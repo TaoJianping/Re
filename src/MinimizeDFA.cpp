@@ -62,6 +62,7 @@ std::vector<MinimizeDFA::MiddleNode> MinimizeDFA::Hopcroft::split(MinimizeDFA::M
 
 DFA MinimizeDFA::Hopcroft::minimize(DFA dfa) {
     auto states = dfa.getAllStates();
+    auto startState = dfa.getStartState();
     std::vector<MiddleNode> P = MinimizeDFA::Hopcroft::splitStatesToNA(states);
     std::map<DFAState *, int> _map;
     for (const auto &p : P) {
@@ -100,15 +101,29 @@ DFA MinimizeDFA::Hopcroft::minimize(DFA dfa) {
         }
     }
 
-    return DFA();
+    for (auto& node : P) {
+        auto res = std::find(node.states.begin(), node.states.end(), startState);
+        if (res != node.states.end()) {
+            node.isStart = true;
+        }
+    }
+
+    auto resDFA = MinimizeDFA::Hopcroft::generate(P);
+
+    return resDFA;
 }
 
 DFA MinimizeDFA::Hopcroft::generate(const std::vector<MiddleNode>& P) {
     std::map<DFAState *, int32_t> record;
     std::map<int32_t, DFAState*> record2;
+    DFAState* startState;
+
     for (const auto& node : P) {
         auto d = new DFAState();
         record2[node.id] = d;
+        if (node.isStart) {
+            startState = d;
+        }
         for (auto ds : node.states) {
             record[ds] = node.id;
         }
@@ -121,13 +136,16 @@ DFA MinimizeDFA::Hopcroft::generate(const std::vector<MiddleNode>& P) {
                 dfa->setEnd();
             }
             for (auto [path, state] : s->getAllPath()) {
-                dfa->setPath(path, record2[record[state]]);
+                dfa->setPath(path, record2.at(record.at(state)));
             }
         }
     }
+    if (!startState) {
+        LOG(ERROR) << "Not found start State!";
+        exit(-1);
+    }
 
-
-
-
-    return DFA();
+    auto dfa = DFA();
+    dfa.setStartState(startState);
+    return dfa;
 }
