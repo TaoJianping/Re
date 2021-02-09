@@ -11,27 +11,43 @@
 #include "MinimizeDFA.h"
 
 
-void Lexer::TableDrivenScanner::defineRules() {
-
-}
-
-void Lexer::TableDrivenScanner::addKeyWord(const std::string &keyword) {
-
-}
-
-void Lexer::TableDrivenScanner::defineRulesWithDefault() {
-
-}
-
 Lexeme::Token Lexer::TableDrivenScanner::nextToken() {
     std::string lexeme;
-    DFAState* state = nullptr;
+    DFAState* state = this->getStartState();
 
+    while (state != nullptr) {
 
+    }
 
 
 
 
     return Lexeme::Token();
+}
+
+Lexer::TableDrivenScanner::TableDrivenScanner(DFA dfa) {
+    this->initialDFA = dfa;
+    auto states = dfa.getAllStates();
+    for (const auto& state : states) {
+        for (auto [key, value] : state->getAllPath() ) {
+            this->table[state][key] = value;
+        }
+    }
+}
+
+DFAState *Lexer::TableDrivenScanner::move(DFAState *state, char path) {
+    if (this->table.count(state) == 0) {
+        return nullptr;
+    }
+    auto _map = this->table.at(state);
+    if (_map.count(path) == 0) {
+        return nullptr;
+    }
+
+    return _map.at(path);
+}
+
+DFAState *Lexer::TableDrivenScanner::getStartState() {
+    return this->initialDFA.getStartState();
 }
 
