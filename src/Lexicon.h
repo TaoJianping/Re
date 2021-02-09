@@ -6,20 +6,21 @@
 #define RETEST_LEXICON_H
 #include "MinimizeDFA.h"
 
-namespace Lexer {
-    class Lexicon {
-    private:
-        NFA nfa;
-        DFA dfa;
-        void add(NFA n);
-    public:
+namespace Lexer
+{
+	class Lexicon
+	{
+	private:
+		NFA nfa;
+		DFA dfa;
+		void add(NFA n);
+	public:
 //        void defineRules();
-        void defineRulesWithDefault();
-        void addKeyWord(std::string keyword);
-        DFA getDFA();
-    };
+		void defineRulesWithDefault();
+		void addKeyWord(std::string keyword);
+		DFA getDFA();
+	};
 }
-
 
 
 #endif //RETEST_LEXICON_H

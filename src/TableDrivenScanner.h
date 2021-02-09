@@ -9,17 +9,19 @@
 #include "Lexeme.h"
 #include "DFA.h"
 
-namespace Lexer {
-    class TableDrivenScanner {
-    private:
-        std::map<DFAState *, std::map<char, DFAState*>> table;
-        DFAState* move(DFAState* state, char path);
-        DFAState* getStartState();
-        DFA initialDFA;
-    public:
-        explicit TableDrivenScanner(DFA dfa);
-        Lexeme::Token nextToken();
-    };
+namespace Lexer
+{
+	class TableDrivenScanner
+	{
+	private:
+		std::map<DFAState*, std::map<char, DFAState*>> table;
+		DFAState* move(DFAState* state, char path);
+		DFAState* getStartState();
+		DFA initialDFA;
+	public:
+		explicit TableDrivenScanner(DFA dfa);
+		Lexeme::Token nextToken();
+	};
 
 }
 

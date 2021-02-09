@@ -17,20 +17,19 @@
 #include <map>
 
 
-
 /*
  * 支持的Token
  * */
-enum class Token: char {
-    CONCATENATION_OPERATOR = '#',
-    UNION_OPERATOR = '|',
-    CLOSURE_OPERATOR = '*',
+enum class Token : char
+{
+	CONCATENATION_OPERATOR = '#',
+	UNION_OPERATOR = '|',
+	CLOSURE_OPERATOR = '*',
 //    ZERO_OR_ONE_OPERATOR = '?',
 //    ONE_OR_MORE_OPERATOR = '+',
-    GROUP_LEFT_OPERATOR = '(',
-    GROUP_RIGHT_OPERATOR = ')',
+	GROUP_LEFT_OPERATOR = '(',
+	GROUP_RIGHT_OPERATOR = ')',
 };
-
 
 /*
  * 符号的优先级（由上到下）
@@ -40,8 +39,8 @@ enum class Token: char {
  *      UNION
  * */
 static std::map<char, int> OPERATOR_PRIORITY = {
-        {static_cast<char>(Token::CONCATENATION_OPERATOR), 1},
-        {static_cast<char>(Token::CLOSURE_OPERATOR), 2},
-        {static_cast<char>(Token::UNION_OPERATOR), 0},
+	{ static_cast<char>(Token::CONCATENATION_OPERATOR), 1 },
+	{ static_cast<char>(Token::CLOSURE_OPERATOR), 2 },
+	{ static_cast<char>(Token::UNION_OPERATOR), 0 },
 };
 
