@@ -99,3 +99,24 @@ std::string m_to_b(const std::string &expr) {
     LOG(INFO) << "Output -> " << output;
     return output;
 }
+
+Utils::TextReader::TextReader(std::string str) : line(1), column(-1), text(std::move(str)) {
+
+}
+
+char Utils::TextReader::nextChar() {
+    this->column++;
+    if (column > this->text.size()) {
+        LOG(ERROR) << "TEXT EXCEED!";
+        throw std::exception();
+    }
+    return this->text.at(this->column);
+}
+
+char Utils::TextReader::peek() const {
+    return this->text.at(this->column);
+}
+
+char Utils::TextReader::advance() {
+    return this->text.at(this->column++);
+}

@@ -20,7 +20,19 @@ set(
         ../src/NFAGraph.cpp
         ../src/NFAState.cpp
         ../src/NFAState.h
-        ../src/DFA.cpp ../src/DFA.h ../src/DFAState.cpp ../src/DFAState.h ../src/MinimizeDFA.cpp ../src/MinimizeDFA.h ../src/Define.h TestKeyWord.cpp)
+        ../src/DFA.cpp
+        ../src/DFA.h
+        ../src/DFAState.cpp
+        ../src/DFAState.h
+        ../src/MinimizeDFA.cpp
+        ../src/MinimizeDFA.h
+        ../src/Define.h
+        ../src/TableDrivenScanner.cpp
+        ../src/TableDrivenScanner.h
+        ../src/Lexeme.h
+        ../src/Lexeme.cpp
+        TestKeyWord.cpp
+        ../src/Lexicon.cpp ../src/Lexicon.h TestLexicon.cpp)
 
 
 add_executable(ReTest UniTest.h UniTest.cpp ${SOURCE_FILE})
