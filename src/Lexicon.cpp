@@ -20,11 +20,11 @@ void Lexer::Lexicon::defineRulesWithDefault()
 void Lexer::Lexicon::addKeyWord(std::string keyword)
 {
 	std::string keyWord(std::move(keyword));
-	auto _nfa = NFA::build(keyWord);
+	auto _nfa = NFA::NFAGraph::build(keyWord);
 	this->add(_nfa);
 }
 
-void Lexer::Lexicon::add(NFA n)
+void Lexer::Lexicon::add(NFA::NFAGraph n)
 {
 	if (this->nfa.getStartState() == nullptr)
 	{
@@ -32,7 +32,7 @@ void Lexer::Lexicon::add(NFA n)
 	}
 	else
 	{
-		this->nfa = NFA::createAlternatives(this->nfa, n);
+		this->nfa = NFA::NFAGraph::createAlternatives(this->nfa, n);
 	}
 }
 

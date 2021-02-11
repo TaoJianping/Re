@@ -9,27 +9,29 @@
 #include "NFAState.h"
 #include <stack>
 
-class NFA
+namespace NFA
 {
-private:
-	NFAState* startState;
-	NFAState* endState;
-public:
-	NFA(NFAState* start, NFAState* end)
-		: startState(start), endState(end)
+	std::string insertExplicitConcatOperator(const std::string& exp);
+
+	std::string m_to_b(const std::string& expr);
+
+	class NFAGraph
 	{
+	private:
+		NFAState* startState;
+		NFAState* endState;
+	public:
+		NFAGraph(NFAState* start, NFAState* end);
+		NFAGraph();
+		static NFAGraph build(const std::string& expr);
+		NFAState* getStartState();
+		static NFAGraph createBasicNFA(char c);
+		static NFAGraph createConcatenation(NFAGraph former, NFAGraph back);
+		static NFAGraph createAlternatives(NFAGraph former, NFAGraph back);
+		static NFAGraph createRepetition(NFAGraph nfa);
 	};
-	NFA()
-		: startState(nullptr), endState(nullptr)
-	{
-	};
-	static NFA build(const std::string& expr);
-	NFAState* getStartState();
-	static NFA createBasicNFA(char c);
-	static NFA createConcatenation(NFA former, NFA back);
-	static NFA createAlternatives(NFA former, NFA back);
-	static NFA createRepetition(NFA nfa);
-};
+}
+
 
 
 #endif //RE_NFAGRAPH_H

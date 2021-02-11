@@ -11,9 +11,7 @@
 
 void deleteAllMark(std::string& s, const std::string& mark);
 
-std::string insertExplicitConcatOperator(const std::string& exp);
 
-std::string m_to_b(const std::string& expr);
 
 namespace Utils
 {
@@ -24,10 +22,13 @@ namespace Utils
 		int32_t line;
 		std::string text;
 	public:
-		explicit TextReader(std::string str);
+		TextReader();
+		void feed(std::string str);
 		char nextChar();
 		[[nodiscard]] char peek() const;
 		char advance();
+		bool eof();
+		void rollBack();
 	};
 }
 

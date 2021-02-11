@@ -9,10 +9,10 @@ TEST(Base, Normal)
 {
     std::string expr = "a(b|c)*";
     deleteAllMark(expr, " ");
-    auto e = insertExplicitConcatOperator(expr);
+    auto e = NFA::insertExplicitConcatOperator(expr);
     EXPECT_EQ(e, std::string("a#(b|c)*"));
-    auto te = m_to_b(e);
-    auto nfa = NFA();
+    auto te = NFA::m_to_b(e);
+    auto nfa = NFA::NFAGraph();
     auto res = nfa.build(te);
     auto startState = res.getStartState();
     EXPECT_EQ(startState->epsilonTransition.size(), 0);
@@ -53,10 +53,10 @@ TEST(Base, Normal)
 TEST(TestDFA, success) {
     std::string expr = "a(b|c)*";
     deleteAllMark(expr, " ");
-    auto e = insertExplicitConcatOperator(expr);
+    auto e = NFA::insertExplicitConcatOperator(expr);
     EXPECT_EQ(e, std::string("a#(b|c)*"));
-    auto te = m_to_b(e);
-    auto nfa = NFA();
+    auto te = NFA::m_to_b(e);
+    auto nfa = NFA::NFAGraph();
     auto res = nfa.build(te);
     auto dfa = DFA(res);
     auto hopcroft = MinimizeDFA::Hopcroft();
@@ -69,10 +69,10 @@ TEST(TestDFA, success) {
 TEST(TestDFA, success2) {
     std::string expr = "(a|b)*abb";
     deleteAllMark(expr, " ");
-    auto e = insertExplicitConcatOperator(expr);
+    auto e = NFA::insertExplicitConcatOperator(expr);
 //    EXPECT_EQ(e, std::string("a#(b|c)*"));
-    auto te = m_to_b(e);
-    auto nfa = NFA();
+    auto te = NFA::m_to_b(e);
+    auto nfa = NFA::NFAGraph();
     auto res = nfa.build(te);
     auto dfa = DFA(res);
     auto A = dfa.getStartState();
@@ -137,8 +137,8 @@ TEST(TestDFA, success4) {
     std::string expr = "(fee)|(fie)";
 //    std::string expr = "a|b";
     deleteAllMark(expr, " ");
-    auto e = insertExplicitConcatOperator(expr);
-    auto te = m_to_b(e);
+    auto e = NFA::insertExplicitConcatOperator(expr);
+    auto te = NFA::m_to_b(e);
     LOG(INFO) << te;
 }
 
@@ -146,8 +146,8 @@ TEST(TestDFA, success5) {
     std::string expr = "(ab|cd)*";
 //    std::string expr = "a|b";
     deleteAllMark(expr, " ");
-    auto e = insertExplicitConcatOperator(expr);
-    auto te = m_to_b(e);
+    auto e = NFA::insertExplicitConcatOperator(expr);
+    auto te = NFA::m_to_b(e);
     LOG(INFO) << te;
 }
 

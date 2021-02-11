@@ -32,7 +32,11 @@ set(
         ../src/Lexeme.h
         ../src/Lexeme.cpp
         TestKeyWord.cpp
-        ../src/Lexicon.cpp ../src/Lexicon.h TestLexicon.cpp)
+        ../src/Lexicon.cpp
+        ../src/Lexicon.h
+        TestLexicon.cpp
+        TestTableGrivenScanner.cpp
+)
 
 
 add_executable(ReTest UniTest.h UniTest.cpp ${SOURCE_FILE})

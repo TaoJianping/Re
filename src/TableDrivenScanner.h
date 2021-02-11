@@ -7,7 +7,10 @@
 
 #include <string>
 #include "Lexeme.h"
-#include "DFA.h"
+#include "MinimizeDFA.h"
+#include <stack>
+#include <fstream>
+#include "Utils.h"
 
 namespace Lexer
 {
@@ -18,9 +21,13 @@ namespace Lexer
 		DFAState* move(DFAState* state, char path);
 		DFAState* getStartState();
 		DFA initialDFA;
+		Utils::TextReader input;
+
 	public:
 		explicit TableDrivenScanner(DFA dfa);
+		void read(const std::string& filePath);
 		Lexeme::Token nextToken();
+		bool end();
 	};
 
 }

@@ -17,10 +17,10 @@
 class DFA
 {
 private:
-	static void epsClosure(NFAState* state, std::set<NFAState*>& container);
+	static void epsClosure(NFA::NFAState* state, std::set<NFA::NFAState*>& container);
 	DFAState* startState;
 public:
-	explicit DFA(NFA nfa);
+	explicit DFA(NFA::NFAGraph nfa);
 	DFA()
 	{
 	};
@@ -28,11 +28,11 @@ public:
 	{
 		this->startState = startState;
 	};
-	static std::vector<NFAState*> epsClosure(const std::vector<NFAState*>& T);
-	static std::vector<NFAState*> epsClosure(NFAState* state);
-	static std::vector<NFAState*> move(const std::vector<NFAState*>& T, char c);
-	static bool containStates(const std::set<DFAState*>& Q, const std::vector<NFAState*>& states);
-	static std::optional<DFAState*> getDFAState(const std::set<DFAState*>& Q, const std::vector<NFAState*>& states);
+	static std::vector<NFA::NFAState*> epsClosure(const std::vector<NFA::NFAState*>& T);
+	static std::vector<NFA::NFAState*> epsClosure(NFA::NFAState* state);
+	static std::vector<NFA::NFAState*> move(const std::vector<NFA::NFAState*>& T, char c);
+	static bool containStates(const std::set<DFAState*>& Q, const std::vector<NFA::NFAState*>& states);
+	static std::optional<DFAState*> getDFAState(const std::set<DFAState*>& Q, const std::vector<NFA::NFAState*>& states);
 	DFAState* getStartState();
 	std::vector<DFAState*> getAllStates();
 };

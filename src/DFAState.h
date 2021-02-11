@@ -10,37 +10,32 @@
 
 class DFAState
 {
+	enum class DFAStateType
+	{
+		Normal,
+		Accept,
+		Error,
+	};
 private:
-	bool isEnd = false;
-	std::vector<NFAState*> NFAStates{};
+	std::vector<NFA::NFAState*> NFAStates{};
 	std::map<char, DFAState*> transition{};
 	std::string description{};
+	DFAStateType status = DFAStateType::Normal;
 public:
 	const std::string& desc();
 	void setDesc(std::string d);
-	explicit DFAState(std::vector<NFAState*> states)
-		: NFAStates(std::move(states))
-	{
-		for (auto s : NFAStates)
-		{
-			if (s->isEnd)
-			{
-				this->isEnd = true;
-				break;
-			}
-		}
-	};
-	DFAState() = default;;
-	std::vector<NFAState*> getNFAStates();
+	explicit DFAState(std::vector<NFA::NFAState*> states);
+	DFAState() = default;
+	explicit DFAState(bool isError);
+	std::vector<NFA::NFAState*> getNFAStates();
 	bool setPath(char c, DFAState* state);
 	bool containsPath(char c);
 	DFAState* pathTo(char c);
 	[[nodiscard]] bool End() const;
+	[[nodiscard]] bool accept() const;
+	[[nodiscard]] bool error() const;
 	std::map<char, DFAState*> getAllPath();
-	void setEnd()
-	{
-		this->isEnd = true;
-	};
+	void setEnd();
 };
 
 

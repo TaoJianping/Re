@@ -11,9 +11,9 @@ namespace Lexer
 	class Lexicon
 	{
 	private:
-		NFA nfa;
+		NFA::NFAGraph nfa;
 		DFA dfa;
-		void add(NFA n);
+		void add(NFA::NFAGraph n);
 	public:
 //        void defineRules();
 		void defineRulesWithDefault();

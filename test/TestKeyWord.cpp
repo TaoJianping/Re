@@ -13,7 +13,7 @@
 TEST(TestKeyWord, IF)
 {
     std::string keyWord("if");
-    auto nfa = NFA::build(keyWord);
+    auto nfa = NFA::NFAGraph::build(keyWord);
     auto dfa = DFA(nfa);
     auto minimizer = MinimizeDFA::Hopcroft();
     auto minimizedDFA = minimizer.minimize(dfa);
@@ -29,7 +29,7 @@ TEST(TestKeyWord, IF)
 TEST(TestKeyWord, CLASS)
 {
     std::string keyWord("class");
-    auto nfa = NFA::build(keyWord);
+    auto nfa = NFA::NFAGraph::build(keyWord);
     auto dfa = DFA(nfa);
     auto minimizer = MinimizeDFA::Hopcroft();
     auto minimizedDFA = minimizer.minimize(dfa);

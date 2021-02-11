@@ -28,7 +28,7 @@ namespace MinimizeDFA
 		DFA minimize(DFA dfa);
 	private:
 		static std::vector<MiddleNode> splitStatesToNA(const std::vector<DFAState*>& states);
-		static std::vector<MiddleNode> split(MiddleNode node, std::map<DFAState*, int> _map);
+		static std::vector<MiddleNode> split(const MiddleNode& node, std::map<DFAState*, int> _map);
 		static DFA generate(const std::vector<MiddleNode>& P);
 	};
 }

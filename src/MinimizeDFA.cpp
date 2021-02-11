@@ -32,7 +32,7 @@ std::vector<MinimizeDFA::MiddleNode> MinimizeDFA::Hopcroft::splitStatesToNA(cons
 	return res;
 }
 
-std::vector<MinimizeDFA::MiddleNode> MinimizeDFA::Hopcroft::split(MinimizeDFA::MiddleNode middleNode,
+std::vector<MinimizeDFA::MiddleNode> MinimizeDFA::Hopcroft::split(const MinimizeDFA::MiddleNode& middleNode,
 	std::map<DFAState*, int> _map)
 {
 	std::map<int, std::vector<DFAState*>> record;

@@ -5,7 +5,7 @@
 #include <algorithm>
 #include "DFA.h"
 
-DFA::DFA(NFA nfa)
+DFA::DFA(NFA::NFAGraph nfa)
 {
 	auto state = nfa.getStartState();
 	auto q0 = new DFAState(DFA::epsClosure(state));
@@ -71,7 +71,7 @@ DFA::DFA(NFA nfa)
  * eps_closure 的递归版本，用这个
  *      目标是输入一个state，能够找到所有不消耗char能到达的边，就是ε边
  * */
-void DFA::epsClosure(NFAState* state, std::set<NFAState*>& container)
+void DFA::epsClosure(NFA::NFAState* state, std::set<NFA::NFAState*>& container)
 {
 	if (container.count(state))
 		return;
@@ -82,21 +82,21 @@ void DFA::epsClosure(NFAState* state, std::set<NFAState*>& container)
 	}
 }
 
-std::vector<NFAState*> DFA::epsClosure(const std::vector<NFAState*>& T)
+std::vector<NFA::NFAState*> DFA::epsClosure(const std::vector<NFA::NFAState*>& T)
 {
-	auto res = std::set<NFAState*>{};
+	auto res = std::set<NFA::NFAState*>{};
 
 	for (auto s : T)
 	{
 		DFA::epsClosure(s, res);
 	}
 
-	return std::vector<NFAState*>(res.begin(), res.end());
+	return std::vector<NFA::NFAState*>(res.begin(), res.end());
 }
 
-std::vector<NFAState*> DFA::move(const std::vector<NFAState*>& T, char c)
+std::vector<NFA::NFAState*> DFA::move(const std::vector<NFA::NFAState*>& T, char c)
 {
-	auto res = std::set<NFAState*>{};
+	auto res = std::set<NFA::NFAState*>{};
 	for (auto s : T)
 	{
 		if (s->existPath(c))
@@ -108,17 +108,17 @@ std::vector<NFAState*> DFA::move(const std::vector<NFAState*>& T, char c)
 			}
 		}
 	}
-	return std::vector<NFAState*>(res.begin(), res.end());
+	return std::vector<NFA::NFAState*>(res.begin(), res.end());
 }
 
-std::vector<NFAState*> DFA::epsClosure(NFAState* state)
+std::vector<NFA::NFAState*> DFA::epsClosure(NFA::NFAState* state)
 {
-	auto container = std::set<NFAState*>{};
+	auto container = std::set<NFA::NFAState*>{};
 	DFA::epsClosure(state, container);
-	return std::vector<NFAState*>(container.begin(), container.end());
+	return std::vector<NFA::NFAState*>(container.begin(), container.end());
 }
 
-bool DFA::containStates(const std::set<DFAState*>& Q, const std::vector<NFAState*>& states)
+bool DFA::containStates(const std::set<DFAState*>& Q, const std::vector<NFA::NFAState*>& states)
 {
 	std::set<int> _statesIdSet{};
 	std::for_each(states.begin(), states.end(), [&_statesIdSet](auto item)
@@ -138,7 +138,7 @@ bool DFA::containStates(const std::set<DFAState*>& Q, const std::vector<NFAState
 	return false;
 }
 
-std::optional<DFAState*> DFA::getDFAState(const std::set<DFAState*>& Q, const std::vector<NFAState*>& states)
+std::optional<DFAState*> DFA::getDFAState(const std::set<DFAState*>& Q, const std::vector<NFA::NFAState*>& states)
 {
 	std::set<int> _statesIdSet{};
 	std::for_each(states.begin(), states.end(), [&_statesIdSet](auto item)

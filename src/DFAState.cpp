@@ -5,7 +5,7 @@
 #include <utility>
 #include "DFAState.h"
 
-std::vector<NFAState*> DFAState::getNFAStates()
+std::vector<NFA::NFAState*> DFAState::getNFAStates()
 {
 	return this->NFAStates;
 }
@@ -28,7 +28,7 @@ DFAState* DFAState::pathTo(char c)
 
 bool DFAState::End() const
 {
-	return this->isEnd;
+	return this->status == DFAStateType::Accept;
 }
 
 std::map<char, DFAState*> DFAState::getAllPath()
@@ -45,3 +45,39 @@ void DFAState::setDesc(std::string d)
 {
 	this->description = std::move(d);
 }
+
+bool DFAState::accept() const
+{
+	return this->status == DFAStateType::Accept;
+}
+
+DFAState::DFAState(std::vector<NFA::NFAState*> states) : NFAStates(std::move(states))
+{
+	for (auto s : NFAStates)
+	{
+		if (s->isEnd)
+		{
+			this->status = DFAStateType::Accept;
+			break;
+		}
+	}
+}
+
+void DFAState::setEnd()
+{
+	this->status = DFAStateType::Accept;
+}
+
+DFAState::DFAState(bool isError)
+{
+	if (isError) {
+		this->status = DFAStateType::Error;
+	} else {
+		this->status = DFAStateType::Normal;
+	}
+}
+
+bool DFAState::error() const
+{
+	return this->status == DFAStateType::Error;
+};

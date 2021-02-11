@@ -58,6 +58,8 @@ namespace Lexeme
 		OTHERWISE,
 		WITH,
 		IN,
+		TRUE,
+		FALSE,
 
 		// I/O routine
 		WRITE,
@@ -113,7 +115,12 @@ namespace Lexeme
 
 	class Token
 	{
-
+	private:
+		TokenType type;
+		TokenValue value;
+	public:
+		explicit Token(std::string lexeme);
+		void print();
 	};
 
 };

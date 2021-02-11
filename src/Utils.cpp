@@ -22,112 +22,8 @@ void deleteAllMark(std::string& s, const std::string& mark)
 	}
 }
 
-std::string insertExplicitConcatOperator(const std::string& exp)
-{
-	std::string output;
 
-	for (int i = 0; i < exp.length(); ++i)
-	{
-		const char token = exp[i];
-		output += token;
-
-		if (token == (char)Token::GROUP_LEFT_OPERATOR || token == (char)Token::UNION_OPERATOR)
-			continue;
-
-		if (i < exp.length() - 1)
-		{
-			const char lookahead = exp[i + 1];
-
-			if (lookahead == (char)Token::CLOSURE_OPERATOR ||
-				lookahead == (char)Token::GROUP_RIGHT_OPERATOR ||
-				lookahead == (char)Token::UNION_OPERATOR)
-			{
-				continue;
-			}
-
-			output += (char)Token::CONCATENATION_OPERATOR;
-		}
-	}
-	return output;
-}
-
-std::string m_to_b(const std::string& expr)
-{
-	LOG(INFO) << "START Shunting Yard Algorithm";
-	LOG(INFO) << "EXPR -> " << expr;
-
-	std::stack<char> optStack;
-	std::string output;
-
-	for (char c : expr)
-	{
-		if (c == static_cast<char>(Token::GROUP_LEFT_OPERATOR))
-		{
-			optStack.push(c);
-		}
-		else if (isalnum(c))
-		{
-			output += c;
-		}
-		else if (c == static_cast<char>(Token::CLOSURE_OPERATOR) ||
-			c == static_cast<char>(Token::CONCATENATION_OPERATOR) ||
-			c == static_cast<char>(Token::UNION_OPERATOR))
-		{
-			if (optStack.empty())
-			{
-				optStack.push(c);
-				continue;
-			}
-			if (optStack.top() == static_cast<char>(Token::GROUP_LEFT_OPERATOR))
-			{
-				optStack.push(c);
-				continue;
-			}
-
-			while (!optStack.empty() && OPERATOR_PRIORITY[optStack.top()] > OPERATOR_PRIORITY[c])
-			{
-				output.push_back(optStack.top());
-				optStack.pop();
-			}
-			optStack.push(c);
-		}
-		else if (c == static_cast<char>(Token::GROUP_RIGHT_OPERATOR))
-		{
-			while (optStack.top() != static_cast<char>(Token::GROUP_LEFT_OPERATOR))
-			{
-				auto i = optStack.top();
-				optStack.pop();
-				output.push_back(i);
-			}
-			if (optStack.top() == static_cast<char>(Token::GROUP_LEFT_OPERATOR))
-			{
-				optStack.pop();
-			}
-			else
-			{
-				LOG(ERROR) << "Could Not Find LEFT_OPERATOR";
-				exit(-1);
-			}
-		}
-		else
-		{
-			LOG(ERROR) << "NOT SUPPORT operator or char !";
-			exit(-1);
-		}
-	}
-
-	while (!optStack.empty())
-	{
-		output += optStack.top();
-		optStack.pop();
-	}
-
-	LOG(INFO) << "Output -> " << output;
-	return output;
-}
-
-Utils::TextReader::TextReader(std::string str)
-	: line(1), column(-1), text(std::move(str))
+Utils::TextReader::TextReader() : line(1), column(-1)
 {
 
 }
@@ -151,4 +47,20 @@ char Utils::TextReader::peek() const
 char Utils::TextReader::advance()
 {
 	return this->text.at(this->column++);
+}
+
+void Utils::TextReader::feed(std::string str)
+{
+	this->text = std::move(str);
+}
+
+bool Utils::TextReader::eof()
+{
+	auto a = static_cast<int32_t>(this->text.size());
+	return (column + 1) >= static_cast<int32_t>(this->text.size());
+}
+
+void Utils::TextReader::rollBack()
+{
+	this->column--;
 }
